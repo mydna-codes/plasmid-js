@@ -1,0 +1,16 @@
+{
+  "name": "plasmid",
+  "version": "1.0.0",
+  "description": "Angular Plasmid App",
+  "main": "index.js",
+  "dependencies": {
+    "http-server": "^0.12.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "test",
+    "start": "http-server -a localhost -p 8000 -c-1 ./app"
+  },
+  "author": "",
+  "license": "ISC"
+}
