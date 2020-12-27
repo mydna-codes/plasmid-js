@@ -15,14 +15,20 @@ angular.module('plasmidJsApp.plasmidDisplay', ['ngRoute'])
   $scope.sequencingLength = 100
   $scope.sequenceLength = 360
 
-  function receiveMessage(event) {
-    console.log(event); //just checking
-    $scope.$apply(function(){
+  const receiveMessage = function (event) {
 
+    // save incoming data to scope
+    $scope.$apply(function(){
+      console.log("child received:", event.data)
     })
-    //$scope.prefix = event.detail;
+
   }
 
   $window.addEventListener("message", receiveMessage, false);
+
+  $scope.sendToParent = function (){
+    window.top.postMessage('hello', 'http://localhost:4200')
+  }
+
 
 }]);
