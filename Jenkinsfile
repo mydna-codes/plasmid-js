@@ -68,6 +68,45 @@ pipeline {
             }
         }
     }
+    stage("Prepare deployments") {
+        steps {
+            script {
+                def deploymentConfig = readYaml file: ".ci/deployment-config.yaml"
+                def environment      = ""
+
+                if (env.GIT_BRANCH.equals("prod") || env.GIT_BRANCH.equals("origin/prod")) {
+                    environment = deploymentConfig.environments.prod
+                } else {
+                    environment = deploymentConfig.environments.dev
+                }
+
+                sh """ \
+                sed -i \
+                    -e 's+{{IMAGE_NAME}}+$DOCKER_IMAGE_TAG:$PROJECT_VERSION+g' \
+                    -e 's+{{NAMESPACE}}+$environment.namespace+g' \
+                    -e 's+{{ENV_SUFFIX}}+$environment.suffix+g'
+                """
+            }
+        }
+    }
+    stage("Deploy application") {
+        steps {
+            script {
+                try {
+                    withKubeConfig([credentialsId: KUBERNETES_CREDENTIALS]) {
+                        sh "kubectl scale --replicas=0 deployment plasmid-js-deployment -n mydnacodes"
+                        sh "kubectl scale --replicas=1 deployment plasmid-js-deployment -n mydnacodes"
+                    }
+                } catch (Exception e) {
+                    echo "Deployment has not been scaled."
+                    echo e.getMessage()
+                }
+            }
+            withKubeConfig([credentialsId: KUBERNETES_CREDENTIALS]) {
+                sh "kubectl apply -f .kube/plasmid-js-deployment.yaml"
+            }
+        }
+    }
     post {
         success {
             slackSend (color: '#57BA57',
