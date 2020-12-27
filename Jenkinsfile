@@ -87,5 +87,7 @@ pipeline {
                                   |Branch:  *${GIT_BRANCH}*
                                   |Author:  ${COMMIT_AUTHOR}
                                   |Message: ${COMMIT_MESSAGE}""".stripMargin()
+            )
+        }
     }
 }
