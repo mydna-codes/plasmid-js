@@ -6,4 +6,4 @@ WORKDIR /usr/share/nginx/html
 COPY app .
 
 EXPOSE 4200
-CMD ["/bin/sh",  "-c",  "envsubst < /usr/share/nginx/html/assets/env.template.js > /usr/share/nginx/html/assets/env.js && exec nginx -g 'daemon off;'"]
+CMD ["/bin/sh",  "-c",  "exec nginx -g 'daemon off;'"]
