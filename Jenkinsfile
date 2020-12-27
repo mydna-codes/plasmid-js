@@ -92,10 +92,19 @@ pipeline {
     stage("Deploy application") {
         steps {
             script {
+                def deploymentConfig = readYaml file: ".ci/deployment-config.yaml"
+                def namespace        = ""
+
+                if (env.GIT_BRANCH.equals("prod") || env.GIT_BRANCH.equals("origin/prod")) {
+                    namespace = deploymentConfig.environments.prod.namespace
+                } else {
+                    namespace = deploymentConfig.environments.dev.namespace
+                }
+
                 try {
                     withKubeConfig([credentialsId: KUBERNETES_CREDENTIALS]) {
-                        sh "kubectl scale --replicas=0 deployment plasmid-js-deployment -n mydnacodes"
-                        sh "kubectl scale --replicas=1 deployment plasmid-js-deployment -n mydnacodes"
+                        sh "kubectl scale --replicas=0 deployment plasmid-js-deployment -n $namespace"
+                        sh "kubectl scale --replicas=1 deployment plasmid-js-deployment -n $namespace"
                     }
                 } catch (Exception e) {
                     echo "Deployment has not been scaled."
