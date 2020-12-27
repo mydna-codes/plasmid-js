@@ -67,52 +67,52 @@ pipeline {
                 sh "docker rmi $DOCKER_IMAGE_TAG:latest"
             }
         }
-    }
-    stage("Prepare deployments") {
-        steps {
-            script {
-                def deploymentConfig = readYaml file: ".ci/deployment-config.yaml"
-                def environment      = ""
+        stage("Prepare deployments") {
+            steps {
+                script {
+                    def deploymentConfig = readYaml file: ".ci/deployment-config.yaml"
+                    def environment      = ""
 
-                if (env.GIT_BRANCH.equals("prod") || env.GIT_BRANCH.equals("origin/prod")) {
-                    environment = deploymentConfig.environments.prod
-                } else {
-                    environment = deploymentConfig.environments.dev
+                    if (env.GIT_BRANCH.equals("prod") || env.GIT_BRANCH.equals("origin/prod")) {
+                        environment = deploymentConfig.environments.prod
+                    } else {
+                        environment = deploymentConfig.environments.dev
+                    }
+
+                    sh """ \
+                    sed -i \
+                        -e 's+{{IMAGE_NAME}}+$DOCKER_IMAGE_TAG:$PROJECT_VERSION+g' \
+                        -e 's+{{NAMESPACE}}+$environment.namespace+g' \
+                        -e 's+{{ENV_SUFFIX}}+$environment.suffix+g'
+                    """
                 }
-
-                sh """ \
-                sed -i \
-                    -e 's+{{IMAGE_NAME}}+$DOCKER_IMAGE_TAG:$PROJECT_VERSION+g' \
-                    -e 's+{{NAMESPACE}}+$environment.namespace+g' \
-                    -e 's+{{ENV_SUFFIX}}+$environment.suffix+g'
-                """
             }
         }
-    }
-    stage("Deploy application") {
-        steps {
-            script {
-                def deploymentConfig = readYaml file: ".ci/deployment-config.yaml"
-                def namespace        = ""
+        stage("Deploy application") {
+            steps {
+                script {
+                    def deploymentConfig = readYaml file: ".ci/deployment-config.yaml"
+                    def namespace        = ""
 
-                if (env.GIT_BRANCH.equals("prod") || env.GIT_BRANCH.equals("origin/prod")) {
-                    namespace = deploymentConfig.environments.prod.namespace
-                } else {
-                    namespace = deploymentConfig.environments.dev.namespace
-                }
-
-                try {
-                    withKubeConfig([credentialsId: KUBERNETES_CREDENTIALS]) {
-                        sh "kubectl scale --replicas=0 deployment plasmid-js-deployment -n $namespace"
-                        sh "kubectl scale --replicas=1 deployment plasmid-js-deployment -n $namespace"
+                    if (env.GIT_BRANCH.equals("prod") || env.GIT_BRANCH.equals("origin/prod")) {
+                        namespace = deploymentConfig.environments.prod.namespace
+                    } else {
+                        namespace = deploymentConfig.environments.dev.namespace
                     }
-                } catch (Exception e) {
-                    echo "Deployment has not been scaled."
-                    echo e.getMessage()
+
+                    try {
+                        withKubeConfig([credentialsId: KUBERNETES_CREDENTIALS]) {
+                            sh "kubectl scale --replicas=0 deployment plasmid-js-deployment -n $namespace"
+                            sh "kubectl scale --replicas=1 deployment plasmid-js-deployment -n $namespace"
+                        }
+                    } catch (Exception e) {
+                        echo "Deployment has not been scaled."
+                        echo e.getMessage()
+                    }
                 }
-            }
-            withKubeConfig([credentialsId: KUBERNETES_CREDENTIALS]) {
-                sh "kubectl apply -f .kube/plasmid-js-deployment.yaml"
+                withKubeConfig([credentialsId: KUBERNETES_CREDENTIALS]) {
+                    sh "kubectl apply -f .kube/plasmid-js-deployment.yaml"
+                }
             }
         }
     }
