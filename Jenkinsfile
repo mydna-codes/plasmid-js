@@ -103,8 +103,8 @@ pipeline {
 
                     try {
                         withKubeConfig([credentialsId: KUBERNETES_CREDENTIALS]) {
-                            sh "kubectl scale --replicas=0 deployment plasmid-js-deployment -n $namespace"
-                            sh "kubectl scale --replicas=1 deployment plasmid-js-deployment -n $namespace"
+                            sh "kubectl scale --replicas=0 deployment plasmid-js-app -n $namespace"
+                            sh "kubectl scale --replicas=1 deployment plasmid-js-app -n $namespace"
                         }
                     } catch (Exception e) {
                         echo "Deployment has not been scaled."
