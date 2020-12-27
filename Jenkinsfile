@@ -3,15 +3,6 @@ pipeline {
     agent any
 
     environment {
-        registry = "https://docker.mjamsek.com"
-        registryCredential = "nexus-username"
-        dockerImageTag = "docker.mjamsek.com/api-gateway"
-        dockerClientImageTag = "docker.mjamsek.com/api-gateway-admin-ui"
-        dockerImage = ""
-        dockerClientImage = ""
-        version = ""
-        commitAuthor = ""
-
         // Global variables
         KUBERNETES_CREDENTIALS = "k8s-kubeconfig"
         DOCKER_CREDENTIALS     = "mydnacodes-docker-user"
