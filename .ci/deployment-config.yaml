@@ -3,7 +3,7 @@ environments:
   # test environment for plasmid-js application.
   dev:
     suffix: ""
-    namespace: mydnacodes
+    namespace: mydnacodes-prod
   prod:
     suffix: ""
-    namespace: mydnacodes
+    namespace: mydnacodes-prod
