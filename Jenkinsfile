@@ -39,10 +39,8 @@ pipeline {
         }
         stage("Packaging client application") {
             steps {
-                dir("web") {
-                    withNPM(npmrcConfig: 'npm-public-file') {
-                        sh "npm install"
-                    }
+                nodejs('node-15.5') {
+                    sh 'npm install'
                 }
             }
         }
