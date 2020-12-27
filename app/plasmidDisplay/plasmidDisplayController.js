@@ -19,7 +19,7 @@ angular.module('plasmidJsApp.plasmidDisplay', ['ngRoute'])
 
     // save incoming data to scope
     $scope.$apply(function(){
-      console.log("child received:", event.data)
+      console.log("child received changed:", event.data)
     })
 
   }
