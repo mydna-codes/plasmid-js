@@ -1,0 +1,9 @@
+environments:
+  # Dev branch equals to prod, because there is
+  # test environment for plasmid-js application.
+  dev:
+    suffix: ""
+    namespace: mydnacodes-prod
+  prod:
+    suffix: ""
+    namespace: mydnacodes-prod
