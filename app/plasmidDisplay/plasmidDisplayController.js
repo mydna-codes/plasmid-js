@@ -27,7 +27,7 @@ angular.module('plasmidJsApp.plasmidDisplay', ['ngRoute'])
   $window.addEventListener("message", receiveMessage, false);
 
   $scope.sendToParent = function (){
-    window.top.postMessage('hello', 'http://localhost:4200')
+    window.top.postMessage('hello', '*')
   }
 
 
