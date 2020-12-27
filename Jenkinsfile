@@ -83,7 +83,8 @@ pipeline {
                     sed -i \
                         -e 's+{{IMAGE_NAME}}+$DOCKER_IMAGE_TAG:$PROJECT_VERSION+g' \
                         -e 's+{{NAMESPACE}}+$environment.namespace+g' \
-                        -e 's+{{ENV_SUFFIX}}+$environment.suffix+g'
+                        -e 's+{{ENV_SUFFIX}}+$environment.suffix+g' \
+                        .kube/plasmid-js-deployment.yaml
                     """
                 }
             }
