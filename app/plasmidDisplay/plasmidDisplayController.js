@@ -15,7 +15,7 @@ angular.module('plasmidJsApp.plasmidDisplay', ['ngRoute'])
   $scope.sequencingLength = 100
   $scope.sequenceLength = 360
 
-  $scope.temp = "this is some temporary text but it is different then the previous temporary text :)"
+  $scope.temp = "this is some temporary text but it is different then the previous temporary text :) but now it is even longer and green"
 
   const receiveMessage = function (event) {
 
