@@ -54,6 +54,7 @@ angular.module('plasmidJsApp.plasmidDisplay', ['ngRoute'])
         }
 
         $scope.dna = data.dna
+        $scope.tickInterval = Math.round(data.dna.sequence.length / 20)
         $scope.enzymes = data.enzymes
         $scope.showPlasmid = true
       })
