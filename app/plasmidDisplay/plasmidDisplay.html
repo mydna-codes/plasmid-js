@@ -1,13 +1,5 @@
-
-<div style="background-color: green">
-{{temp}}
-</div>
-
-<div style="background-color: yellow">
-
-    <div>
-
-        <plasmid sequencelength="{{sequenceLength}}" plasmidheight="375" plasmidwidth="375">
+<div style="display: flex; justify-content: center">
+        <plasmid sequencelength="{{sequenceLength}}" plasmidheight="350" plasmidwidth="350">
             <plasmidtrack trackstyle="fill:rgba(225,225,225,0.5)" radius="110">
 
                 <!-- center text -->
@@ -81,13 +73,4 @@
                 <trackscale interval="30" style="stroke:#f00" direction="in" showlabels="1" labelstyle="fill:#999;stroke:none;text-anchor:middle;alignment-baseline:middle;font-size:10px"></trackscale>
             </plasmidtrack>
         </plasmid>
-
-        <input ng-model="sequencingStart" type="range" min="0" max="{{sequenceLength - sequencingLength}}">
-        <input ng-model="sequencingLength" type="range" min="0" max="{{sequenceLength}}">
-
-    </div>
-
-    <button ng-click="sendToParent()"> SEND TO PARENT </button>
-
 </div>
-
