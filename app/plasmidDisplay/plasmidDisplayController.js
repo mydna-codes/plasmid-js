@@ -74,9 +74,6 @@ angular.module('plasmidJsApp.plasmidDisplay', ['ngRoute'])
   $window.addEventListener("message", receiveMessage, false);
 
   $scope.sendToParent = function (){
-
-    console.log("this change should be visible")
-
     window.top.postMessage('hello', '*')
   }
 
