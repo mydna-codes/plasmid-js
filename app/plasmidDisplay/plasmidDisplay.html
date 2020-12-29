@@ -23,12 +23,13 @@
 
                 <!-- center text -->
                 <tracklabel text="{{dna.name}}" labelstyle='font-size:20px;font-weight:400'></tracklabel>
-                <tracklabel text="360 bp ???" labelstyle='font-size:10px' vadjust="20"></tracklabel>
+                <tracklabel text="{{ dna.sequence.length + 'bp'}} " labelstyle='font-size:10px' vadjust="20"></tracklabel>
 
-
+                <!--
                 <trackmarker ng-repeat="overlap in overlaps" start="{{overlap.fromIndex}}" end="{{overlap.toIndex}}" markerstyle="{{overlap.color}}" arrowendlength="{{overlap.arrowLength}}" arrowstartlength="{{overlap.arrowStart}}">
                     <markerlabel type="path" class="mdlabel white" text="{{overlap.name}}"></markerlabel>
                 </trackmarker>
+                -->
 
                 <trackmarker ng-repeat="overlap in overlaps"  start="{{overlap.fromIndex}}" end="{{overlap.toIndex}}"  markerstyle="{{overlap.color}}" wadjust="-5" vadjust="25"></trackmarker>
 
