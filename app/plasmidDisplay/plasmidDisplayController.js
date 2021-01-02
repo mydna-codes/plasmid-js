@@ -23,38 +23,15 @@ angular.module('plasmidJsApp.plasmidDisplay', ['ngRoute'])
     const data = event.data
     console.log("child received:", data)
 
-    if(data.type == "new"){
+    if(data.type == "create"){
       // save incoming data to scope
       $scope.$apply(function(){
-
-        $scope.overlaps = []
-        for(const gene of data.genes){
-          let sequence = gene.sequence
-          let name = gene.name
-          for(const overlap of gene.overlaps){
-            overlap["name"] = name
-            let start = overlap.fromIndex
-            let end = overlap.toIndex
-
-            if(start <= end){
-              overlap.arrowStart = -4
-              overlap.arrowLength = 4
-            }else{
-              overlap.arrowStart = 4
-              overlap.arrowLength = -4
-            }
-
-            overlap.color = getRandomColor()
-            overlap.fromIndex = Math.min(start,end)
-            overlap.toIndex = Math.max(start, end)
-
-            $scope.overlaps.push(overlap)
-
-          }
-        }
-
         $scope.dna = data.dna
-        $scope.tickInterval = Math.round(data.dna.sequence.length / 20)
+        $scope.overlaps = data.overlaps
+
+        $scope.tickInterval10 = Math.round(data.dna.sequence.length / 10)
+        $scope.tickInterval20 = Math.round(data.dna.sequence.length / 20)
+
         $scope.enzymes = data.enzymes
         $scope.showPlasmid = true
       })
