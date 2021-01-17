@@ -29,8 +29,12 @@ angular.module('plasmidJsApp.plasmidDisplay', ['ngRoute'])
         $scope.dna = data.dna
         $scope.overlaps = data.overlaps
 
-        $scope.tickInterval10 = Math.round(data.dna.sequence.length / 10)
-        $scope.tickInterval20 = Math.round(data.dna.sequence.length / 20)
+        console.log(data.dna.sequence.length)
+
+        $scope.tickInterval12 = Math.floor(data.dna.sequence.length / 11)
+        console.log($scope.tickInterval12)
+        $scope.tickInterval10 = Math.floor(data.dna.sequence.length / 10)
+        $scope.tickInterval20 = Math.floor(data.dna.sequence.length / 20)
 
         $scope.enzymes = data.enzymes
         $scope.showPlasmid = true
